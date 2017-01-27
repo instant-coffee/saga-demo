@@ -34,6 +34,14 @@ export function* watchIncrementAsync() {
   yield takeEvery('INCREMENT_ASYNC', incrementAsync)
 }
 
+// Single entry point to start all Sagas at once
+export default function* rootSaga() {
+  yield [
+    helloSaga(),
+    watchIncrementAsync()
+  ]
+}
+
 function render() {
   ReactDOM.render(
     <Counter
