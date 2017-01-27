@@ -7,10 +7,7 @@ import createSagaMiddleware from 'redux-saga'
 
 import Counter from './Counter'
 import reducer from './reducers'
-import { helloSaga } from './sagas'
-
-import { delay } from 'redux-saga'
-import { put, takeEvery } from 'redux-saga/effects'
+import rootSaga from './sagas'
 
 const sagaMiddleware = createSagaMiddleware()
 
@@ -21,26 +18,7 @@ const store = createStore(
 
 const action = type => store.dispatch({type})
 
-sagaMiddleware.run(helloSaga)
-
-// Worker Saga: will perform the async increment task
-export function* incrementAsync() {
-  yield delay(1000)
-  yield put({ type: 'INCREMENT' })
-}
-
-// Watcher Saga: spawn a new incrementAsync task on each INCREMENT_ASYNC
-export function* watchIncrementAsync() {
-  yield takeEvery('INCREMENT_ASYNC', incrementAsync)
-}
-
-// Single entry point to start all Sagas at once
-export default function* rootSaga() {
-  yield [
-    helloSaga(),
-    watchIncrementAsync()
-  ]
-}
+sagaMiddleware.run(rootSaga)
 
 function render() {
   ReactDOM.render(
