@@ -9,6 +9,9 @@ import Counter from './Counter'
 import reducer from './reducers'
 import { helloSaga } from './sagas'
 
+import { delay } from 'redux-saga'
+import { put, takeEvery } from 'redux-saga/effects'
+
 const sagaMiddleware = createSagaMiddleware()
 
 const store = createStore(
@@ -19,6 +22,15 @@ const store = createStore(
 const action = type => store.dispatch({type})
 
 sagaMiddleware.run(helloSaga)
+
+export function* incrementAsync() {
+  yield delay(1000)
+  yield put({ type: 'INCREMENT' })
+}
+
+export function* watchIncrementAsync() {
+  yield takeEvery('INCREMENT_ASYNC', incrementAsync)
+}
 
 function render() {
   ReactDOM.render(
