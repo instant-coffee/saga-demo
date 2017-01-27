@@ -1,6 +1,6 @@
 
 import { delay } from 'redux-saga'
-import { put, takeEvery } from 'redux-saga/effects'
+import { put, call, takeEvery } from 'redux-saga/effects'
 
 export function* helloSaga() {
   console.log('Hello Sagas!')
@@ -8,7 +8,7 @@ export function* helloSaga() {
 
 // Worker Saga: will perform the async increment task
 export function* incrementAsync() {
-  yield delay(1000)
+  yield call(delay, 1000)
   yield put({ type: 'INCREMENT' })
 }
 
